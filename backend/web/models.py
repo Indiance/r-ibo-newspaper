@@ -23,6 +23,17 @@ class Classification(models.Model):
         super().save(*args, **kwargs)
 
 
+class Issue(models.Model):
+    name = models.TextField()
+    slug = models.SlugField(default="", null=False)
+    cover = models.ImageField(null=True, upload_to='images/articleCovers/')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
 # Create your models here.
 class Article(models.Model):
     article_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -36,6 +47,12 @@ class Article(models.Model):
         Classification,
         on_delete=models.DO_NOTHING,
         related_name="classificationOfArticle",
+        null=True,
+    )
+    issue = models.ForeignKey(
+        Issue,
+        on_delete=models.DO_NOTHING,
+        related_name="issueWhenPublished",
         null=True,
     )
     featured = models.BooleanField(null=True)
@@ -71,3 +88,5 @@ class ArticleComment(models.Model):
     )
     date_commented = models.DateTimeField(auto_created=True, null=True)
     comment_content = models.TextField(null=True)
+
+# TODO create a model for an ISSUE for each article

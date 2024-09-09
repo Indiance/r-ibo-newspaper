@@ -23,7 +23,6 @@ def contact(request: HttpRequest):
 		request,
 		"web/contact.html"
 	)
-    
 
 def category_detail(request: HttpRequest, slug):
     category = get_object_or_404(Classification, slug=slug)

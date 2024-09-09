@@ -68,7 +68,7 @@ TEMPLATES = [
                 "web.context_processors.categories_processor"
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = "newspaper.wsgi.application"
